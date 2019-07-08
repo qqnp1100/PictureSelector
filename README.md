@@ -9,6 +9,23 @@
                        //list 图片列表
                     });
     ```
+# 本分支集成方式
+
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://www.jitpack.io' }
+		}
+	}
+Step 2. Add the dependency [![](https://jitpack.io/v/qqnp1100/PictureSelector.svg)](https://jitpack.io/#qqnp1100/PictureSelector)
+
+	dependencies {
+            //请自行改为最新版本
+	        implementation 'com.github.qqnp1100:PictureSelector:v2.2.4'
+	}
 
 # PictureSelector 2.0
    一款针对android平台下的图片选择器，支持从相册或拍照选择图片或视频、音频，支持动态权限获取、裁剪(单图or多图裁剪)、压缩、主题自定义配置等功能、适配android 6.0+系统的开源图片选择框架。<br>  
