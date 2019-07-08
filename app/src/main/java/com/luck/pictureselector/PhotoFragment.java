@@ -1,13 +1,14 @@
 package com.luck.pictureselector;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,7 +157,15 @@ public class PhotoFragment extends Fragment implements View.OnClickListener,
                         .showCropGrid(cb_showCropGrid.isChecked())
                         .openClickSound(cb_voice.isChecked())
                         .selectionMedia(selectList)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                        .asObservable()
+                        .subscribe(list -> {
+                            selectList = list;
+                            for (LocalMedia media : selectList) {
+                                Log.i("图片-----》", media.getPath());
+                            }
+                            adapter.setList(selectList);
+                            adapter.notifyDataSetChanged();
+                        });
             } else {
                 // 单独拍照
                 PictureSelector.create(PhotoFragment.this)
@@ -181,25 +190,18 @@ public class PhotoFragment extends Fragment implements View.OnClickListener,
                         .showCropGrid(cb_showCropGrid.isChecked())
                         .openClickSound(cb_voice.isChecked())
                         .selectionMedia(selectList)
-                        .forResult(PictureConfig.CHOOSE_REQUEST);
+                        .asObservable()
+                        .subscribe(list -> {
+                            selectList = list;
+                            for (LocalMedia media : selectList) {
+                                Log.i("图片-----》", media.getPath());
+                            }
+                            adapter.setList(selectList);
+                            adapter.notifyDataSetChanged();
+                        });
             }
         }
     };
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // 图片选择
-                    selectList = PictureSelector.obtainMultipleResult(data);
-                    adapter.setList(selectList);
-                    adapter.notifyDataSetChanged();
-                    break;
-            }
-        }
-    }
 
     @Override
     public void onClick(View v) {

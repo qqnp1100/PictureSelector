@@ -1,13 +1,14 @@
 package com.luck.pictureselector;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+
 import androidx.annotation.IdRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -195,7 +196,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //.videoQuality()// 视频录制质量 0 or 1
                         //.videoSecond()//显示多少秒以内的视频or音频也可适用
                         //.recordVideoSecond()//录制视频秒数 默认60s
-                        .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                        .asObservable()
+                        .subscribe(
+                                list -> {
+                                    selectList = list;
+                                    for (LocalMedia media : selectList) {
+                                        Log.i("图片-----》", media.getPath());
+                                    }
+                                    adapter.setList(selectList);
+                                    adapter.notifyDataSetChanged();
+                                },
+                                error -> {
+
+                                });
             } else {
                 // 单独拍照
                 PictureSelector.create(MainActivity.this)
@@ -230,34 +243,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //.scaleEnabled()// 裁剪是否可放大缩小图片
                         //.videoQuality()// 视频录制质量 0 or 1
                         //.videoSecond()////显示多少秒以内的视频or音频也可适用
-                        .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                        .asObservable()
+                        .subscribe(
+                                list -> {
+                                    selectList = list;
+                                    for (LocalMedia media : selectList) {
+                                        Log.i("图片-----》", media.getPath());
+                                    }
+                                    adapter.setList(selectList);
+                                    adapter.notifyDataSetChanged();
+                                },
+                                error -> {
+
+                                });
             }
         }
 
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case PictureConfig.CHOOSE_REQUEST:
-                    // 图片选择结果回调
-                    selectList = PictureSelector.obtainMultipleResult(data);
-                    // 例如 LocalMedia 里面返回三种path
-                    // 1.media.getPath(); 为原图path
-                    // 2.media.getCutPath();为裁剪后path，需判断media.isCut();是否为true
-                    // 3.media.getCompressPath();为压缩后path，需判断media.isCompressed();是否为true
-                    // 如果裁剪并压缩了，已取压缩路径为准，因为是先裁剪后压缩的
-                    for (LocalMedia media : selectList) {
-                        Log.i("图片-----》", media.getPath());
-                    }
-                    adapter.setList(selectList);
-                    adapter.notifyDataSetChanged();
-                    break;
-            }
-        }
-    }
 
     @Override
     public void onClick(View v) {

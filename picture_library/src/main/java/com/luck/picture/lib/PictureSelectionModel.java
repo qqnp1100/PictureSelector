@@ -2,17 +2,23 @@ package com.luck.picture.lib;
 
 import android.app.Activity;
 import android.content.Intent;
+
 import androidx.annotation.FloatRange;
 import androidx.annotation.IntRange;
 import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.DoubleUtils;
+import com.luck.picture.lib.tools.result.ActivityResultUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * author：luck
@@ -260,7 +266,7 @@ public class PictureSelectionModel {
     }
 
     /**
-     * @param Less than how many KB images are not compressed
+     * @param size than how many KB images are not compressed
      * @return
      */
     public PictureSelectionModel minimumCompressSize(int size) {
@@ -416,6 +422,27 @@ public class PictureSelectionModel {
             }
             activity.overridePendingTransition(R.anim.a5, 0);
         }
+    }
+
+    public PublishSubject<List<LocalMedia>> asObservable() {
+        PublishSubject sub = PublishSubject.<List<LocalMedia>>create();
+        if (!DoubleUtils.isFastDoubleClick()) {
+            FragmentActivity activity = (FragmentActivity) selector.getActivity();
+            if (activity == null) {
+//                sub.onError(new Throwable("activity 为空"));
+                sub.onComplete();
+                return sub;
+            }
+            Intent intent = new Intent(activity, PictureSelectorActivity.class);
+            ActivityResultUtils.startActivityWithCallBack(activity.getSupportFragmentManager(), intent, PictureConfig.CHOOSE_REQUEST, abw -> {
+                if (abw.resultCode == Activity.RESULT_OK && abw.requestCode == PictureConfig.CHOOSE_REQUEST) {
+                    List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(abw.intent);
+                    sub.onNext(selectList);
+                }
+                sub.onComplete();
+            });
+        }
+        return sub;
     }
 
     /**
