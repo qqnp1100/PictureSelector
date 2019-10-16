@@ -1,5 +1,10 @@
 # 本分支修改内容
-
+- 增加local()方法修改中英文
+    ```
+    PictureSelector.create(MainActivity.this)
+                   .local("en")//zh
+                   ....
+    ```
 - 迁移到AndroidX
 - PictureSelector增加asObservable方法，Rx方式返回选择的图片
     ```
@@ -24,7 +29,7 @@ Step 2. Add the dependency [![](https://jitpack.io/v/qqnp1100/PictureSelector.sv
 
 	dependencies {
             //请自行改为最新版本
-	        implementation 'com.github.qqnp1100:PictureSelector:v2.2.4'
+	        implementation 'com.github.qqnp1100:PictureSelector:v2.2.5.2'
 	}
 
 # PictureSelector 2.0

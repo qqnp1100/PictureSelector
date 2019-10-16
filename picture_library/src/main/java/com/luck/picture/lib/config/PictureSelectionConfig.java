@@ -2,6 +2,7 @@ package com.luck.picture.lib.config;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.StyleRes;
 
 import com.luck.picture.lib.R;
@@ -25,6 +26,7 @@ public final class PictureSelectionConfig implements Parcelable {
     public String outputCameraPath;
     public String compressSavePath;
     public String suffixType;
+    public String local = "zh";
     @StyleRes
     public int themeStyleId;
     public int selectionMode;
@@ -140,6 +142,7 @@ public final class PictureSelectionConfig implements Parcelable {
         dest.writeString(this.outputCameraPath);
         dest.writeString(this.compressSavePath);
         dest.writeString(this.suffixType);
+        dest.writeString(this.local);
         dest.writeInt(this.themeStyleId);
         dest.writeInt(this.selectionMode);
         dest.writeInt(this.maxSelectNum);
@@ -190,6 +193,7 @@ public final class PictureSelectionConfig implements Parcelable {
         this.outputCameraPath = in.readString();
         this.compressSavePath = in.readString();
         this.suffixType = in.readString();
+        this.local = in.readString();
         this.themeStyleId = in.readInt();
         this.selectionMode = in.readInt();
         this.maxSelectNum = in.readInt();

@@ -403,6 +403,15 @@ public class PictureSelectionModel {
     }
 
     /**
+     * @param local PictureSelector local
+     * @return
+     */
+    public PictureSelectionModel local(String local) {
+        selectionConfig.local = local;
+        return this;
+    }
+
+    /**
      * Start to select media and wait for result.
      *
      * @param requestCode Identity of the request Activity or Fragment.

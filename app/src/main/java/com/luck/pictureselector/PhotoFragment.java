@@ -157,6 +157,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener,
                         .showCropGrid(cb_showCropGrid.isChecked())
                         .openClickSound(cb_voice.isChecked())
                         .selectionMedia(selectList)
+                        .local("zh")
                         .asObservable()
                         .subscribe(list -> {
                             selectList = list;
@@ -190,6 +191,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener,
                         .showCropGrid(cb_showCropGrid.isChecked())
                         .openClickSound(cb_voice.isChecked())
                         .selectionMedia(selectList)
+                        .local("zh")
                         .asObservable()
                         .subscribe(list -> {
                             selectList = list;

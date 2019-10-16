@@ -10,8 +10,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
 import android.text.TextUtils;
 
 import com.luck.picture.lib.compress.Luban;
@@ -29,6 +31,7 @@ import com.luck.picture.lib.rxbus2.RxUtils;
 import com.luck.picture.lib.tools.AttrsUtils;
 import com.luck.picture.lib.tools.DateUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
+import com.luck.picture.lib.tools.LocaleUtils;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.yalantis.ucrop.UCrop;
@@ -79,6 +82,11 @@ public class PictureBaseActivity extends FragmentActivity {
                 , colorPrimaryDark
                 , colorPrimary
                 , openWhiteStatusBar);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LocaleUtils.setLanguage(newBase, PictureSelectionConfig.getInstance().local));
     }
 
     @Override
