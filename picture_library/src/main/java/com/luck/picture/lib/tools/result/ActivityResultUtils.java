@@ -19,7 +19,7 @@ public class ActivityResultUtils {
         void call(ActivityBackWrapper abw);
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
+
     public static void startActivityWithCallBack(FragmentManager fragmentManager, Intent intent, int requestCode, final CallBack callBack) {
         AssistFragment fragment = (AssistFragment) fragmentManager.findFragmentByTag(TAG_FRAGMENT);
         if (fragment == null) {
